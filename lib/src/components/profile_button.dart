@@ -5,21 +5,23 @@ import 'package:anova_incomings/src/views/auth_view.dart';
 import 'package:anova_incomings/src/views/registration_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
 
 typedef LogoutCallback = Future<dynamic> Function();
 
 
 Widget buildAvatar(BuildContext context, dynamic userData) {
   bool isAuthenticated = userData != null;
+  SvgPicture? image;
+  
+  if (isAuthenticated) {
+    final userId = userData.id;
+    image = SvgPicture.network('https://api.dicebear.com/7.x/miniavs/svg?seed=$userId');
+  }
 
-  // if (isAuthenticated) {
-  //   image = NetworkImage('');
-  // }
-
-  return const CircleAvatar(
+  return CircleAvatar(
       radius: 30,
-      child: Icon(Icons.person),
+      child: isAuthenticated ? image : const Icon(Icons.person),
   );
 }
 

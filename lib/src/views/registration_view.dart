@@ -1,4 +1,5 @@
 
+import 'package:anova_incomings/src/api.dart';
 import 'package:anova_incomings/src/components/alert.dart';
 import 'package:anova_incomings/src/forms/registration_form.dart';
 import 'package:anova_incomings/src/views/auth_view.dart';
@@ -17,22 +18,29 @@ class RegistrationView extends StatelessWidget {
         email,
       }
     ) async {
-
-      await showDialog(
-        context: context, 
-        builder: (_) => const TypedAlert(
-          alertType: AlertTypes.success, 
-          content: Text.rich(
-            TextSpan(
-              text: 'Успешная регистрация, теперь войдите в свой новый аккаунт.',
-            )
-            ,
-            textAlign: TextAlign.center,
-          ),
-        )
-      ).then((_) {
-        Navigator.popAndPushNamed(context, AuthView.routeName);
-      });
+      
+      await ApiManager.registration(
+        username,
+        email,
+        password,
+      ).then(
+        (value) async => await showDialog(
+          context: context, 
+          builder: (_) => const TypedAlert(
+            alertType: AlertTypes.success, 
+            content: Text.rich(
+              TextSpan(
+                text: 'Успешная регистрация, теперь войдите в свой новый аккаунт.',
+              )
+              ,
+              textAlign: TextAlign.center,
+            ),
+          )
+        ).then((_) {
+          Navigator.popAndPushNamed(context, AuthView.routeName);
+        })
+      );
+      
   }
 
   @override

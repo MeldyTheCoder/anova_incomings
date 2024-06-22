@@ -21,6 +21,7 @@ dependencies:
   flutter_portal: ^1.1.4
   flutter_secure_storage: ^9.2.2
   flutter_session_jwt: ^0.0.6
+  flutter_svg: ^2.0.10+1
   http: ^1.2.1
   money_formatter: ^0.0.6
   provider: ^6.1.2

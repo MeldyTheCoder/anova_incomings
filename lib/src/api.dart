@@ -110,7 +110,7 @@ class ApiManager {
   }
 
   static Future<Map<String, dynamic>> registration(String username, String email, String password) async {
-    const urlString = 'http://192.168.0.133:8080/users/registration/';
+    const urlString = 'http://192.168.0.133:8080/users/register/';
 
     final response = await dio.post(
       urlString,

@@ -89,6 +89,7 @@ class AuthProvider extends ChangeNotifier {
     user = (
       username: userData['username'],
       email: userData['email'],
+      id: userData['id'],
     );
     refreshIncomings();
   }
