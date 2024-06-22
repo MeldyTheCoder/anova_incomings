@@ -1,5 +1,8 @@
+import 'package:anova_incomings/src/api.dart';
+import 'package:anova_incomings/src/auth_manager.dart';
+import 'package:anova_incomings/src/components/incomings_list.dart';
 import 'package:anova_incomings/src/views/auth_view.dart';
-import 'package:anova_incomings/src/views/item_detail_view.dart';
+import 'package:anova_incomings/src/views/item_create_view.dart';
 import 'package:anova_incomings/src/views/main_view.dart';
 import 'package:anova_incomings/src/views/profile_view.dart';
 import 'package:anova_incomings/src/views/registration_view.dart';
@@ -7,18 +10,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_portal/flutter_portal.dart';
+import 'components/alert.dart';
 import 'settings/settings_controller.dart';
 import 'settings/settings_view.dart';
 
-/// The Widget that configures your application.
-class MyApp extends StatelessWidget {
-  const MyApp({
-    super.key,
-    required this.settingsController,
-  });
 
-  final SettingsController settingsController;
 
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     // Glue the SettingsController to the MaterialApp.
@@ -26,7 +24,7 @@ class MyApp extends StatelessWidget {
     // The ListenableBuilder Widget listens to the SettingsController for changes.
     // Whenever the user updates their settings, the MaterialApp is rebuilt.
     return ListenableBuilder(
-      listenable: settingsController,
+      listenable: widget.settingsController,
       builder: (BuildContext context, Widget? child) {
         return Portal(
             child: MaterialApp(
@@ -63,7 +61,7 @@ class MyApp extends StatelessWidget {
             // SettingsController to display the correct theme.
             theme: ThemeData(),
             darkTheme: ThemeData.dark(),
-            themeMode: settingsController.themeMode,
+            themeMode: widget.settingsController.themeMode,
 
             // Define a function to handle named routes in order to support
             // Flutter web url navigation and deep linking.
@@ -74,10 +72,7 @@ class MyApp extends StatelessWidget {
                 builder: (BuildContext context) {
                   switch (routeSettings.name) {
                     case SettingsView.routeName:
-                      return SettingsView(controller: settingsController);
-                    
-                    case ItemDetailsView.routeName:
-                      return const ItemDetailsView();
+                      return SettingsView(controller: widget.settingsController);
                     
                     case RegistrationView.routeName:
                       return const RegistrationView();
@@ -90,6 +85,9 @@ class MyApp extends StatelessWidget {
                     
                     case ProfileView.routeName:
                       return const ProfileView();
+                    
+                    case ItemCreateView.routeName:
+                      return const ItemCreateView();
                       
                     default:
                       return const MainView();
@@ -102,4 +100,20 @@ class MyApp extends StatelessWidget {
       },
     );
   }
+}
+
+/// The Widget that configures your application.
+class MyApp extends StatefulWidget {
+  const MyApp({
+    super.key,
+    required this.settingsController,
+  });
+
+  final SettingsController settingsController;
+
+  @override
+  State<StatefulWidget> createState() {
+    return _MyAppState();
+  }
+  
 }

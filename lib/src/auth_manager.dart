@@ -1,36 +1,49 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:dart_jsonwebtoken/dart_jsonwebtoken.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthManager {
   const AuthManager();
 
-  static const secureStorage = FlutterSecureStorage();
+  static get token async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('token');
+  }
 
   static Future authenticate({token}) async {
-    await secureStorage.write(key: 'token', value: token);
+    final prefs = await SharedPreferences.getInstance();
+    
+    if (token == null) {
+      prefs.remove('token');
+      return;
+    }
+
+    prefs.setString('token', token);
   }
 
   static Future<bool> isAuthenticated() async {
-    String? token = await secureStorage.read(key: 'token');
+    final prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
 
     if (token == null) {
       return false;
     }
 
-    return JWT.tryVerify(token, SecretKey('SECRET_KEY')) != null;
+    return JWT.tryVerify(token, SecretKey('eriogheruitghoijghgbufhjg')) != null;
   }
 
   static Future<JWT?> getToken() async {
-    String? token = await secureStorage.read(key: 'token');
+    final prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
 
     if (token == null) {
       return null;
     }
 
-    return JWT.tryVerify(token, SecretKey('SECRET_KEY'));
+    return JWT.tryVerify(token, SecretKey('eriogheruitghoijghgbufhjg'));
   }
 
-  static Future<Record?> getUserCredentials() async {
+
+  static Future<dynamic> getUserCredentials() async {
     JWT? jwt = await getToken();
 
     if (jwt == null) {

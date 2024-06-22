@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 
 enum AlertTypes { 
@@ -109,12 +110,17 @@ class TypedAlert extends StatelessWidget {
   Widget build(BuildContext context) {
     return PopScope(
       onPopInvoked: onClose,
-      child: AlertDialog(
-        icon: Builder(
-          builder: buildIcon,
-        ),
-        content: content,
-        actionsAlignment: MainAxisAlignment.center,
+      child: Animate(
+        effects: const [
+          FadeEffect(duration: Duration(milliseconds: 300))
+        ],
+        child: AlertDialog(
+          icon: Builder(
+            builder: buildIcon,
+          ),
+          content: content,
+          actionsAlignment: MainAxisAlignment.center,
+        )
       )
     );
   }
